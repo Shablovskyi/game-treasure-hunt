@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2D Array Component | Pirate map</title>
+    <style>
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(
+          6,
+          50px
+        ); /* Adjust based on your array size */
+        grid-template-rows: repeat(
+          6,
+          50px
+        ); /* Adjust based on your array size */
+        gap: 1px; /* Adjust based on your preference */
+      }
+      .text {
+        padding: 1.5rem 0 0.75rem;
+      }
+
+      .cell {
+        background-color: #faf0ca; /* Default cell color */
+        border: 1px solid #fff; /* Adjust border as needed */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      /* Define styles for different cell values */
+      .cell.v {
+        background-color: #a7c957; /* Example color for 'v' */
+      }
+
+      .cell.x {
+        background-color: #f95738; /* Example color for 'x' */
+      }
+
+      .cell.o {
+        background-color: #f4d35e; /* Example color for 'o' */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="grid" id="grid"></div>
+
+    <div class="text">Map example</div>
+    <div class="grid" id="map-example"></div>
+
+    <script src="https://diyezz.github.io/main.js"></script>
+    <script>
+      /**
+       * Опишіть нижче FUNCTION declaration - moveForward
+       *
+       * @param {Array<Array<string>>} arr - Функція приймає 2D array з нашою мапою.
+       * @param {number} x - Поточна x-координати гравця.
+       * @param {number} y - Поточна y-координата гравця.
+       * @returns {Array<number>} Фунція повертає нові координати гравця після кроку. В форматі [newX, newY].
+       *
+       **/
+      function moveForward(arr, x, y, obstacles) {
+        if (y > 0 && arr[y - 1][x] !== "x") {
+          console.log("Рухаємось вперед");
+          arr[y][x] = "v";
+          y--;
+          return [x, y];
+        } else {
+          console.log("Неможливо здійснити крок вперед!");
+          return [x, y];
+        }
+      }
+
+      /**
+       * Опишіть нижче FUNCTION expression - turnLeft
+       *
+       * @param {Array<Array<string>>} arr - Функція приймає 2D array з нашою мапою.
+       * @param {number} x - Поточна x-координати гравця.
+       * @param {number} y - Поточна y-координата гравця.
+       * @returns {Array<number>} Фунція повертає нові координати гравця після кроку. В форматі [newX, newY].
+       *
+       **/
+
+      const turnLeft = function (arr, x, y) {
+        if (x > 0 && arr[y][x - 1] !== "x") {
+          console.log("Переміщення ліворуч");
+          arr[y][x] = "v";
+          x--;
+          return [x, y];
+        } else if (x === 0 && y === 0) {
+          console.log("Вітаю ви знайшли скарб")
+          return [x, y]
+        }else{
+          console.log("Неможливо здійснити крок вліво!");
+          return [x, y];
+        }
+
+      };
+
+      /**
+       * Опишіть нижче ARROW function - turnRight
+       *
+       * @param {Array<Array<string>>} arr - Функція приймає 2D array з нашою мапою.
+       * @param {number} x - Поточна x-координати гравця.
+       * @param {number} y - Поточна y-координата гравця.
+       * @returns {Array<number>} Фунція повертає нові координати гравця після кроку. В форматі [newX, newY].
+       *
+       **/
+
+      const turnRight = (arr, x, y) => {
+        if (x < arr[0].length - 1 && arr[y][x + 1] !== "x") {
+          console.log("Переміщення праворуч");
+          arr[y][x] = "v";
+          x++;
+          return [x, y];
+        } else {
+          console.log("Неможливо здійснити крок вправо!");
+          return [x, y];
+        }
+      };
+
+      PIRATE_GAME.renderGrid("map-example");
+      const initMap = PIRATE_GAME.pirateMap;
+      const gameStart = PIRATE_GAME.start(initMap);
+
+      /**
+       * Ваш код з викликом кожного кроку повинен бути нижче
+       *
+       * ! Перший крок викликається з координатами зі змінної gameStart
+       *
+       * ! Зверніть увагу як викликається кожен крок:
+       * Виклик кожного кроку записуємо в константу
+       * та потім координати кроку передаємо в наступний виклик.
+       *
+       * const step1 = turnLeft(initMap, gameStart[0], gameStart[1]);
+       * const step2 = turnLeft(initMap, step1[0], step1[1]);
+       */
+
+      const step1 = turnLeft(initMap, gameStart[0], gameStart[1]);
+      console.log(step1);
+      const step2 = turnLeft(initMap, step1[0], step1[1]);
+      console.log(step2);
+      const step3 = turnLeft(initMap, step2[0], step2[1]);
+      console.log(step3);
+      const step4 = turnLeft(initMap, step3[0], step3[1]);
+      console.log(step4);
+      const step5= moveForward(initMap, step4[0], step4[1]);
+      console.log(step5);
+      const step6= turnRight(initMap, step5[0], step5[1]);
+      console.log(step6);
+      const step7 = turnLeft(initMap, step6[0], step6[1]);
+      console.log(step7);
+      const step8 = turnLeft(initMap, step7[0], step7[1]);
+      console.log(step8);
+      const step9 = moveForward(initMap, step8[0], step8[1]);
+      console.log(step9);
+      const step10 = moveForward(initMap, step9[0], step9[1]);
+      console.log(step10);
+      const step11 = moveForward(initMap, step10[0], step10[1]);
+      console.log(step11);
+      const step12 = turnRight(initMap, step11[0], step11[1]);
+      console.log(step12);
+      const step13 = moveForward(initMap, step12[0], step12[1]);
+      console.log(step13);
+      const step14 = moveForward(initMap, step13[0], step13[1]);
+      console.log(step14);
+      const step15 = moveForward(initMap, step14[0], step14[1]);
+      console.log(step15);
+      const step16 = turnLeft(initMap, step15[0], step15[1]);
+      console.log(step16);
+      const step17 = turnLeft(initMap, step16[0], step16[1]);
+      console.log(step17);
+      
+      PIRATE_GAME.renderGrid("grid");
+    </script>
+  </body>
+</html>
